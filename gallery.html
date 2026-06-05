@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sky Heaven Gallery — Orai's Finest Dining</title>
+<meta name="description" content="Explore Sky Heaven Restaurant's photo gallery — food, ambience, and moments from Orai's most loved dining destination.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #E8232A;
+  --red-dark: #B01820;
+  --amber: #F5A623;
+  --black: #0A0A0A;
+  --off-black: #111118;
+  --charcoal: #1C1C26;
+  --dim: #2A2A38;
+  --muted: #6B6B80;
+  --light: #F0EDE8;
+  --white: #FFFFFF;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  width: 12px; height: 12px;
+  background: var(--red);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.15s ease, background 0.2s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 40px; height: 40px;
+  border: 1.5px solid rgba(232,35,42,0.5);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.4s cubic-bezier(0.17,0.67,0.35,1), width 0.3s, height 0.3s, border-color 0.3s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring.hovered {
+  width: 64px; height: 64px;
+  border-color: var(--amber);
+}
+.cursor.hovered { background: var(--amber); transform: translate(-50%,-50%) scale(1.5); }
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9997;
+  opacity: 0.4;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9000;
+  padding: 20px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(10,10,10,0.9), transparent);
+  backdrop-filter: blur(0px);
+  transition: backdrop-filter 0.3s, background 0.3s;
+}
+nav.scrolled {
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 42px; height: 42px;
+  background: var(--red);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.nav-brand-text .brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+.nav-brand-text .sub {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  text-decoration: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a.active { color: var(--amber); }
+.nav-cta {
+  background: var(--red);
+  color: #fff !important;
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-weight: 600 !important;
+  transition: background 0.2s, transform 0.2s !important;
+}
+.nav-cta:hover { background: var(--red-dark) !important; transform: translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  height: 100vh;
+  min-height: 700px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 60% 40%, rgba(232,35,42,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(245,166,35,0.08) 0%, transparent 50%),
+    var(--black);
+}
+.hero-grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+  padding: 0 24px;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 28px;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '✦';
+  font-size: 8px;
+  opacity: 0.6;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(60px, 9vw, 120px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+.hero-title .line-1 {
+  display: block;
+  animation: fadeUp 0.8s ease 0.15s both;
+}
+.hero-title .line-2 {
+  display: block;
+  color: var(--red);
+  font-style: italic;
+  font-weight: 600;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+.hero-title .line-3 {
+  display: block;
+  animation: fadeUp 0.8s ease 0.45s both;
+}
+.hero-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0 auto 40px;
+  animation: fadeUp 0.8s ease 0.6s both;
+}
+.hero-scroll {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.4);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: fadeUp 0.8s ease 0.75s both;
+}
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--red), transparent);
+  animation: scrollLine 2s ease infinite;
+}
+@keyframes scrollLine { 0%,100%{height:50px;opacity:1} 50%{height:20px;opacity:0.4} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── FLOATING STATS ── */
+.hero-stats {
+  position: absolute;
+  bottom: 80px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  animation: fadeUp 0.8s ease 0.9s both;
+}
+.hero-stat { text-align: center; }
+.hero-stat .num {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--white);
+  display: block;
+}
+.hero-stat .lbl {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── SECTION COMMON ── */
+section { position: relative; }
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.eyebrow {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 16px;
+  display: block;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--red);
+}
+.section-line {
+  width: 48px; height: 1px;
+  background: var(--red);
+  margin: 20px auto 0;
+}
+
+/* ── CATEGORIES STRIP ── */
+.categories-strip {
+  padding: 60px 48px;
+  background: var(--off-black);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+.cats-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 40px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.cat-pill:hover, .cat-pill.active {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(232,35,42,0.3);
+}
+.cat-pill .count {
+  background: rgba(255,255,255,0.15);
+  padding: 1px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+.cat-pill.active .count { background: rgba(255,255,255,0.2); }
+
+/* ── 3D MASONRY GALLERY ── */
+.gallery-section {
+  padding: 80px 48px;
+  background: var(--black);
+}
+.gallery-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.masonry-grid {
+  columns: 4;
+  column-gap: 16px;
+  transition: all 0.5s ease;
+}
+@media (max-width: 1200px) { .masonry-grid { columns: 3; } }
+@media (max-width: 768px) { .masonry-grid { columns: 2; } }
+@media (max-width: 480px) { .masonry-grid { columns: 1; } }
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 16px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.17,0.67,0.35,1), box-shadow 0.4s;
+  display: block;
+}
+.gallery-item:hover {
+  transform: scale(1.02) translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(232,35,42,0.3);
+  z-index: 2;
+}
+.gallery-item img {
+  width: 100%;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.17,0.67,0.35,1);
+  filter: brightness(0.85) saturate(1.1);
+}
+.gallery-item:hover img { transform: scale(1.05); filter: brightness(1) saturate(1.2); }
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+
+.overlay-category {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 4px;
+  transform: translateY(10px);
+  transition: transform 0.3s 0.05s;
+}
+.overlay-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  transform: translateY(10px);
+  transition: transform 0.3s 0.1s;
+}
+.overlay-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 4px;
+  transform: translateY(10px);
+  transition: transform 0.3s 0.15s;
+  line-height: 1.4;
+}
+.overlay-icon {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 36px; height: 36px;
+  background: rgba(232,35,42,0.9);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.25s 0.1s;
+}
+.gallery-item:hover .overlay-icon { opacity: 1; transform: scale(1); }
+.gallery-item:hover .overlay-category,
+.gallery-item:hover .overlay-name,
+.gallery-item:hover .overlay-desc { transform: translateY(0); }
+
+/* Featured badge */
+.gallery-item.featured::after {
+  content: '★ Featured';
+  position: absolute;
+  top: 12px; left: 12px;
+  background: var(--amber);
+  color: #000;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+/* ── LIGHTBOX ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  background: rgba(0,0,0,0.97);
+  backdrop-filter: blur(20px);
+  align-items: center;
+  justify-content: center;
+}
+.lightbox.open { display: flex; }
+.lb-inner {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lb-img-wrap {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px var(--glass-border);
+}
+.lb-img-wrap img {
+  max-width: 85vw;
+  max-height: 75vh;
+  object-fit: contain;
+  display: block;
+}
+.lb-info {
+  margin-top: 24px;
+  text-align: center;
+}
+.lb-category {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 6px;
+}
+.lb-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.lb-desc { color: var(--muted); font-size: 14px; max-width: 500px; }
+.lb-close {
+  position: fixed;
+  top: 28px; right: 32px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  z-index: 2;
+}
+.lb-close:hover { background: var(--red); border-color: var(--red); }
+.lb-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  z-index: 2;
+}
+.lb-nav:hover { background: var(--red); border-color: var(--red); }
+.lb-prev { left: 24px; }
+.lb-next { right: 24px; }
+.lb-counter {
+  position: fixed;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+/* ── VIDEO SECTION ── */
+.video-section {
+  padding: 80px 48px;
+  background: var(--off-black);
+  text-align: center;
+}
+.video-card {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  background: var(--dim);
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid var(--glass-border);
+}
+.video-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1C0A0A, #2A1A08, #0A1A1C);
+  opacity: 0.8;
+}
+.video-placeholder-img {
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=80') center/cover no-repeat;
+  filter: brightness(0.35) saturate(0.8);
+}
+.play-btn {
+  position: relative;
+  z-index: 2;
+  width: 80px; height: 80px;
+  background: var(--red);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 0 0 rgba(232,35,42,0.4);
+  animation: pulse-ring 2s ease infinite;
+}
+.play-btn:hover { transform: scale(1.1); }
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(232,35,42,0.4); }
+  70% { box-shadow: 0 0 0 30px rgba(232,35,42,0); }
+  100% { box-shadow: 0 0 0 0 rgba(232,35,42,0); }
+}
+.video-label {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 2;
+  text-align: left;
+}
+.video-label span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 4px;
+}
+.video-label strong {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  color: #fff;
+}
+
+/* ── AMBIENCE STRIP ── */
+.ambience-section {
+  padding: 80px 0;
+  overflow: hidden;
+  background: var(--black);
+}
+.ambience-section .section-header { padding: 0 48px; }
+.scroll-strip {
+  display: flex;
+  gap: 16px;
+  padding: 0 48px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-strip::-webkit-scrollbar { display: none; }
+.strip-card {
+  flex-shrink: 0;
+  width: 320px;
+  height: 420px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.strip-card:hover { transform: scale(1.02); }
+.strip-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+  filter: brightness(0.7) saturate(1.1);
+}
+.strip-card:hover img { transform: scale(1.05); filter: brightness(0.85); }
+.strip-card-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+}
+.strip-card-info .tag {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 4px;
+}
+.strip-card-info .name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ── PARALLAX QUOTE ── */
+.quote-section {
+  padding: 120px 48px;
+  background: var(--off-black);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.quote-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(232,35,42,0.08) 0%, transparent 70%);
+}
+.quote-text {
+  position: relative;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 54px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.9);
+  max-width: 900px;
+  margin: 0 auto 24px;
+}
+.quote-text em { color: var(--amber); font-style: normal; }
+.quote-author {
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── SOCIAL CTA ── */
+.social-section {
+  padding: 80px 48px;
+  background: var(--black);
+  text-align: center;
+}
+.social-cards {
+  display: flex;
+  gap: 16px;
+  max-width: 800px;
+  margin: 40px auto 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.social-card {
+  flex: 1;
+  min-width: 200px;
+  border-radius: 16px;
+  padding: 32px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  text-decoration: none;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.social-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--red);
+  box-shadow: 0 20px 50px rgba(232,35,42,0.2);
+}
+.social-card .social-icon { font-size: 36px; }
+.social-card .social-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+}
+.social-card .social-handle {
+  font-size: 13px;
+  color: var(--muted);
+}
+.social-card .social-btn {
+  margin-top: 8px;
+  padding: 8px 20px;
+  border-radius: 30px;
+  background: var(--red);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 40px 48px;
+  border-top: 1px solid var(--glass-border);
+  background: var(--off-black);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+}
+.footer-logo span { color: var(--red); }
+.footer-copy { font-size: 13px; color: var(--muted); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--white); }
+
+/* ── SCROLL TO TOP ── */
+.scroll-top {
+  position: fixed;
+  bottom: 32px; right: 32px;
+  width: 48px; height: 48px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(232,35,42,0.4);
+  z-index: 8000;
+  transition: transform 0.2s;
+}
+.scroll-top.visible { display: flex; }
+.scroll-top:hover { transform: translateY(-3px); }
+
+/* ── LOADING SKELETON ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--dim) 25%, var(--charcoal) 50%, var(--dim) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ── REVEAL ANIMATION ── */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ── COUNT-UP ── */
+.count-up { display: inline-block; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .gallery-section { padding: 60px 16px; }
+  .categories-strip { padding: 40px 16px; }
+  .ambience-section .section-header { padding: 0 24px; }
+  .scroll-strip { padding: 0 24px; }
+  .quote-section { padding: 80px 24px; }
+  .social-section { padding: 60px 24px; }
+  footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+  .hero-stats { gap: 30px; bottom: 60px; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev">‹</button>
+  <button class="lb-nav lb-next" id="lbNext">›</button>
+  <div class="lb-inner">
+    <div class="lb-img-wrap">
+      <img id="lbImg" src="" alt="">
+    </div>
+    <div class="lb-info">
+      <div class="lb-category" id="lbCat"></div>
+      <div class="lb-name" id="lbName"></div>
+      <div class="lb-desc" id="lbDesc"></div>
+    </div>
+  </div>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo-icon">⚡</div>
+    <div class="nav-brand-text">
+      <div class="brand">Sky Heaven</div>
+      <div class="sub">Fine Dining · Orai</div>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#menu">Menu</a>
+    <a href="#" class="active">Gallery</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#reservation">Book Table</a>
+    <a href="index.html#contact" class="nav-cta">Contact Us</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Sky Heaven · Photo Gallery · Orai</div>
+    <h1 class="hero-title">
+      <span class="line-1">A Feast</span>
+      <span class="line-2">For Your Eyes</span>
+      <span class="line-3">& Soul</span>
+    </h1>
+    <p class="hero-sub">Step inside Sky Heaven — where every dish is a masterpiece, every corner tells a story, and every moment becomes a memory.</p>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll to explore</span>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="num count-up" data-target="685">0</span>+
+      <span class="lbl">Happy Diners</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num count-up" data-target="150">0</span>+
+      <span class="lbl">Menu Items</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">12</span>
+      <span class="lbl">Years of Love</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">4.0</span>★
+      <span class="lbl">Rating</span>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES FILTER -->
+<div class="categories-strip reveal">
+  <div class="cats-inner" id="catFilter">
+    <button class="cat-pill active" data-filter="all">🌟 All Photos <span class="count">54</span></button>
+    <button class="cat-pill" data-filter="food">🍛 Food <span class="count">28</span></button>
+    <button class="cat-pill" data-filter="starters">🥗 Starters <span class="count">8</span></button>
+    <button class="cat-pill" data-filter="mains">🍲 Main Course <span class="count">10</span></button>
+    <button class="cat-pill" data-filter="drinks">🥤 Drinks <span class="count">6</span></button>
+    <button class="cat-pill" data-filter="desserts">🍨 Desserts <span class="count">4</span></button>
+    <button class="cat-pill" data-filter="ambience">🏮 Ambience <span class="count">16</span></button>
+    <button class="cat-pill" data-filter="team">👨‍🍳 Our Team <span class="count">6</span></button>
+  </div>
+</div>
+
+<!-- MASONRY GALLERY -->
+<section class="gallery-section">
+  <div class="gallery-container">
+    <div class="section-header reveal">
+      <span class="eyebrow">Captured Moments</span>
+      <h2 class="section-title">Every Dish, A <em>Masterpiece</em></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="masonry-grid" id="masonryGrid"></div>
+  </div>
+</section>
+
+<!-- VIDEO / AMBIENCE SHOWCASE -->
+<section class="video-section reveal">
+  <div class="section-header">
+    <span class="eyebrow">Experience Sky Heaven</span>
+    <h2 class="section-title">Step Inside Our <em>World</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="video-card" onclick="window.open('https://www.instagram.com/sky_heaven_orai/','_blank')">
+    <div class="video-placeholder-img"></div>
+    <div class="video-bg"></div>
+    <div class="play-btn">▶</div>
+    <div class="video-label">
+      <span>Watch on Instagram</span>
+      <strong>Sky Heaven — Restaurant Tour</strong>
+    </div>
+  </div>
+</section>
+
+<!-- HORIZONTAL SCROLL AMBIENCE -->
+<section class="ambience-section">
+  <div class="section-header reveal">
+    <span class="eyebrow">The Atmosphere</span>
+    <h2 class="section-title">Feel the <em>Ambience</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="scroll-strip" id="ambienceStrip"></div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section reveal">
+  <div class="quote-bg"></div>
+  <div class="quote-text">
+    "Food is not just eating energy. It's an experience — a story of culture, love, and craft. At Sky Heaven, every plate carries the <em>soul of Orai</em>."
+  </div>
+  <div class="quote-author">— Chef Ramesh Kumar, Head Chef · Sky Heaven since 2012</div>
+</section>
+
+<!-- SOCIAL -->
+<section class="social-section reveal">
+  <div class="section-header">
+    <span class="eyebrow">Follow Our Story</span>
+    <h2 class="section-title">We're <em>Everywhere</em></h2>
+    <div class="section-line"></div>
+    <p style="color:var(--muted);font-size:15px;max-width:500px;margin:20px auto 0;line-height:1.7">Follow us for daily specials, behind-the-scenes kitchen moments, new menu drops, and exclusive deals.</p>
+  </div>
+  <div class="social-cards">
+    <a href="https://www.instagram.com/sky_heaven_orai/" target="_blank" class="social-card">
+      <div class="social-icon">📸</div>
+      <div class="social-name">Instagram</div>
+      <div class="social-handle">@sky_heaven_orai</div>
+      <div class="social-btn">Follow →</div>
+    </a>
+    <a href="https://www.facebook.com/p/Sky-Heaven-100066477879320/" target="_blank" class="social-card">
+      <div class="social-icon">👍</div>
+      <div class="social-name">Facebook</div>
+      <div class="social-handle">Sky Heaven · Orai</div>
+      <div class="social-btn">Like Page →</div>
+    </a>
+    <a href="https://www.justdial.com/Orai/Sky-Heaven-Near-Bhagat-Singh-Churaha-Orai-Road/9999P5162-5162-240829201305-M6C2_BZDET" target="_blank" class="social-card">
+      <div class="social-icon">⭐</div>
+      <div class="social-name">JustDial</div>
+      <div class="social-handle">4.0 ★ · 685+ Reviews</div>
+      <div class="social-btn">Rate Us →</div>
+    </a>
+    <a href="https://wa.me/919627935670?text=Hi%20Sky%20Heaven!%20I%20saw%20your%20gallery%20and%20would%20like%20to%20book%20a%20table%20%F0%9F%8D%BD" target="_blank" class="social-card">
+      <div class="social-icon">💬</div>
+      <div class="social-name">WhatsApp</div>
+      <div class="social-handle">+91 96279 35670</div>
+      <div class="social-btn">Order Now →</div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo">Sky <span>Heaven</span></a>
+  <div class="footer-copy">© 2026 Sky Heaven Restaurant · Near Bhagat Singh Churaha, Orai UP</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#menu">Menu</a>
+    <a href="index.html#reservation">Book Table</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ── GALLERY DATA ──
+const galleryData = [
+  // FOOD - STARTERS
+  { id:1, cat:'starters', filter:'food,starters', name:'Paneer Tikka', desc:'Chargrilled paneer with mint chutney', img:'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600&q=80', featured:true },
+  { id:2, cat:'starters', filter:'food,starters', name:'Veg Spring Roll', desc:'Crispy vegetable rolls', img:'https://images.unsplash.com/photo-1562802378-063ec186a863?w=600&q=80', featured:false },
+  { id:3, cat:'starters', filter:'food,starters', name:'Chilli Paneer', desc:'Wok-tossed in fiery sauce', img:'https://images.unsplash.com/photo-1627662168223-7df99068099a?w=600&q=80', featured:true },
+  { id:4, cat:'starters', filter:'food,starters', name:'Paneer Malai Tikka', desc:'Creamy malai marinated tikka', img:'https://images.unsplash.com/photo-1548340748-6af6f6e15af7?w=600&q=80', featured:false },
+  { id:5, cat:'starters', filter:'food,starters', name:'Hara Bhara Kabab', desc:'Green pea & spinach kabab', img:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=80', featured:false },
+  { id:6, cat:'starters', filter:'food,starters', name:'Crispy Baby Corn', desc:'Spicy chilli baby corn', img:'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600&q=80', featured:false },
+  // MAINS
+  { id:7, cat:'mains', filter:'food,mains', name:'Paneer Butter Masala', desc:'Rich creamy tomato gravy — our bestseller', img:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80', featured:true },
+  { id:8, cat:'mains', filter:'food,mains', name:'Dal Makhani', desc:'Slow-cooked overnight for 12 hours', img:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80', featured:true },
+  { id:9, cat:'mains', filter:'food,mains', name:'Veg Biryani', desc:'Fragrant basmati with seasonal vegetables', img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80', featured:true },
+  { id:10, cat:'mains', filter:'food,mains', name:'Malai Kofta', desc:'Paneer balls in creamy gravy', img:'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=80', featured:false },
+  { id:11, cat:'mains', filter:'food,mains', name:'Shahi Paneer', desc:'Royal paneer in cashew gravy', img:'https://images.unsplash.com/photo-1645177628172-a94c1f96e6db?w=600&q=80', featured:false },
+  { id:12, cat:'mains', filter:'food,mains', name:'Chole Masala', desc:'Amritsari-style spiced chickpeas', img:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80', featured:false },
+  { id:13, cat:'mains', filter:'food,mains', name:'Palak Paneer', desc:'Creamy spinach paneer curry', img:'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&q=80', featured:false },
+  { id:14, cat:'mains', filter:'food,mains', name:'Dal Tadka', desc:'Classic dal with cumin tempering', img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80', featured:false },
+  // DRINKS
+  { id:15, cat:'drinks', filter:'food,drinks', name:'Virgin Mojito', desc:'Lime and fresh mint', img:'https://images.unsplash.com/photo-1587223962930-cb7f31384c19?w=600&q=80', featured:false },
+  { id:16, cat:'drinks', filter:'food,drinks', name:'Mango Mojito', desc:'Tropical summer special', img:'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=80', featured:true },
+  { id:17, cat:'drinks', filter:'food,drinks', name:'Chocolate Oreo Shake', desc:'Thick shake with Oreo crumble', img:'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&q=80', featured:false },
+  { id:18, cat:'drinks', filter:'food,drinks', name:'Blue Lagoon', desc:'Vibrant blue curacao mocktail', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', featured:false },
+  { id:19, cat:'drinks', filter:'food,drinks', name:'Cold Coffee', desc:'Chilled creamy cold brew', img:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80', featured:false },
+  { id:20, cat:'drinks', filter:'food,drinks', name:'Masala Chai', desc:'Spiced Indian tea', img:'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=600&q=80', featured:false },
+  // DESSERTS
+  { id:21, cat:'desserts', filter:'food,desserts', name:'Chocolate Ice Cream', desc:'Rich Belgian chocolate', img:'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=600&q=80', featured:true },
+  { id:22, cat:'desserts', filter:'food,desserts', name:'Gulab Jamun', desc:'Soft spongy in sugar syrup', img:'https://images.unsplash.com/photo-1567206563114-c179706b3cff?w=600&q=80', featured:false },
+  { id:23, cat:'desserts', filter:'food,desserts', name:'Strawberry Shake', desc:'Fresh strawberry milkshake', img:'https://images.unsplash.com/photo-1502741126161-b048400d085d?w=600&q=80', featured:false },
+  { id:24, cat:'desserts', filter:'food,desserts', name:'Fruit Raita', desc:'Yogurt with seasonal fruits', img:'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&q=80', featured:false },
+  // AMBIENCE
+  { id:25, cat:'ambience', filter:'ambience', name:'Main Dining Hall', desc:'Warm and welcoming, seats 60 guests', img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', featured:true },
+  { id:26, cat:'ambience', filter:'ambience', name:'Evening Atmosphere', desc:'Golden hour at Sky Heaven', img:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80', featured:false },
+  { id:27, cat:'ambience', filter:'ambience', name:'Table Setting', desc:'Every detail crafted with care', img:'https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=600&q=80', featured:false },
+  { id:28, cat:'ambience', filter:'ambience', name:'The Entrance', desc:'Welcome to Sky Heaven', img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80', featured:false },
+  { id:29, cat:'ambience', filter:'ambience', name:'Family Celebration', desc:'Perfect venue for special occasions', img:'https://images.unsplash.com/photo-1592861956120-e524fc739696?w=600&q=80', featured:false },
+  { id:30, cat:'ambience', filter:'ambience', name:'Private Dining', desc:'Intimate dinners for two', img:'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=600&q=80', featured:false },
+  { id:31, cat:'ambience', filter:'ambience', name:'Counter View', desc:'Freshly prepared every day', img:'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80', featured:false },
+  { id:32, cat:'ambience', filter:'ambience', name:'Night Ambience', desc:'Come experience the magic', img:'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80', featured:true },
+  // TEAM
+  { id:33, cat:'team', filter:'team', name:'Chef Ramesh Kumar', desc:'Head Chef · 14 years experience', img:'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&q=80', featured:false },
+  { id:34, cat:'team', filter:'team', name:'Chef Vijay Sharma', desc:'Tandoor Master · 11 years', img:'https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=600&q=80', featured:false },
+  { id:35, cat:'team', filter:'team', name:'Our Kitchen Brigade', desc:'Crafting perfection daily', img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80', featured:true },
+  { id:36, cat:'team', filter:'team', name:'Sunita Devi', desc:'Pastry & Desserts · 9 years', img:'https://images.unsplash.com/photo-1607631568010-a87245c0daf8?w=600&q=80', featured:false },
+];
+
+const ambienceCards = [
+  { tag:'Dining Hall', name:'Warm Evenings', img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80' },
+  { tag:'Kitchen', name:'Where Magic Happens', img:'https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=600&q=80' },
+  { tag:'Bar Counter', name:'Refreshing Drinks', img:'https://images.unsplash.com/photo-1587223962930-cb7f31384c19?w=600&q=80' },
+  { tag:'Food', name:'Signature Dishes', img:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80' },
+  { tag:'Night Glow', name:'Golden Evenings', img:'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80' },
+  { tag:'Celebration', name:'Your Special Day', img:'https://images.unsplash.com/photo-1592861956120-e524fc739696?w=600&q=80' },
+  { tag:'Family', name:'Memories Made Here', img:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80' },
+];
+
+// ── RENDER MASONRY ──
+let currentFilter = 'all';
+let currentLbIndex = 0;
+let filteredData = [...galleryData];
+
+function renderMasonry(filter) {
+  const grid = document.getElementById('masonryGrid');
+  filteredData = filter === 'all' ? galleryData : galleryData.filter(i => i.filter.includes(filter));
+  
+  grid.style.opacity = '0';
+  grid.style.transform = 'translateY(20px)';
+  
+  setTimeout(() => {
+    grid.innerHTML = '';
+    filteredData.forEach((item, idx) => {
+      const el = document.createElement('div');
+      el.className = 'gallery-item' + (item.featured ? ' featured' : '');
+      el.onclick = () => openLightbox(idx);
+      el.innerHTML = `
+        <img src="${item.img}" alt="${item.name}" loading="lazy">
+        <div class="gallery-overlay">
+          <span class="overlay-category">${item.cat}</span>
+          <div class="overlay-name">${item.name}</div>
+          <div class="overlay-desc">${item.desc}</div>
+        </div>
+        <div class="overlay-icon">🔍</div>`;
+      grid.appendChild(el);
+      
+      // Stagger hover setup for 3D tilt
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        el.style.transform = `perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale(1.02) translateY(-4px)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = '';
+      });
+    });
+    
+    grid.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    grid.style.opacity = '1';
+    grid.style.transform = 'translateY(0)';
+  }, 200);
+}
+
+// ── CATEGORY FILTER ──
+document.getElementById('catFilter').addEventListener('click', (e) => {
+  const pill = e.target.closest('.cat-pill');
+  if (!pill) return;
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  currentFilter = pill.dataset.filter;
+  renderMasonry(currentFilter);
+});
+
+// ── RENDER AMBIENCE STRIP ──
+const strip = document.getElementById('ambienceStrip');
+ambienceCards.forEach(card => {
+  const el = document.createElement('div');
+  el.className = 'strip-card';
+  el.innerHTML = `
+    <img src="${card.img}" alt="${card.name}" loading="lazy">
+    <div class="strip-card-info">
+      <div class="tag">${card.tag}</div>
+      <div class="name">${card.name}</div>
+    </div>`;
+  strip.appendChild(el);
+});
+
+// ── LIGHTBOX ──
+function openLightbox(idx) {
+  currentLbIndex = idx;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function updateLightbox() {
+  const item = filteredData[currentLbIndex];
+  document.getElementById('lbImg').src = item.img.replace('w=600', 'w=1200');
+  document.getElementById('lbImg').alt = item.name;
+  document.getElementById('lbCat').textContent = item.cat.toUpperCase();
+  document.getElementById('lbName').textContent = item.name;
+  document.getElementById('lbDesc').textContent = item.desc;
+  document.getElementById('lbCounter').textContent = `${currentLbIndex + 1} / ${filteredData.length}`;
+}
+
+document.getElementById('lbClose').onclick = () => {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+};
+document.getElementById('lbPrev').onclick = () => {
+  currentLbIndex = (currentLbIndex - 1 + filteredData.length) % filteredData.length;
+  updateLightbox();
+};
+document.getElementById('lbNext').onclick = () => {
+  currentLbIndex = (currentLbIndex + 1) % filteredData.length;
+  updateLightbox();
+};
+document.getElementById('lightbox').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('lightbox')) {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
+  if (e.key === 'ArrowLeft') { currentLbIndex = (currentLbIndex - 1 + filteredData.length) % filteredData.length; updateLightbox(); }
+  if (e.key === 'ArrowRight') { currentLbIndex = (currentLbIndex + 1) % filteredData.length; updateLightbox(); }
+});
+
+// ── CUSTOM CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', (e) => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+document.querySelectorAll('a, button, .gallery-item, .cat-pill, .strip-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('hovered'); ring.classList.add('hovered'); });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('hovered'); ring.classList.remove('hovered'); });
+});
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── REVEAL ON SCROLL ──
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// ── COUNT-UP ANIMATION ──
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.target);
+    let current = 0;
+    const step = Math.ceil(target / 60);
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current;
+      if (current >= target) clearInterval(timer);
+    }, 25);
+    countObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.count-up').forEach(el => countObs.observe(el));
+
+// ── INIT ──
+renderMasonry('all');
+</script>
+</body>
+</html>
